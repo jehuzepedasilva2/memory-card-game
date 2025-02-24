@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+.cards {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  padding: 0.5rem;
+  background-color: lightgray;
+  width: 12rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.1s ease-in;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-image {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card-image img {
+  height: 10rem;
+  width: 10rem;
+}
