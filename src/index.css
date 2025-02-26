@@ -4,9 +4,15 @@
   gap: 1rem;
 }
 
+.score {
+  display: flex;
+  gap: 2rem;
+}
+
 body {
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }

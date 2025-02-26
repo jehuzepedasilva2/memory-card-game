@@ -1,12 +1,19 @@
+import { useEffect } from 'react';
 import './styles/card.css';
-import {
-   useState,
-  useEffect 
-} from 'react';
+// import {
+//    useState,
+//   useEffect 
+// } from 'react';
 import PropTypes from 'prop-types';
 
 
+// Card.propTypes = {
+//   id: PropTypes.number,
+// };
+
 Card.propTypes = {
+  url: PropTypes.string,
+  name: PropTypes.string,
   id: PropTypes.number,
 };
 
@@ -14,39 +21,32 @@ Cards.propTypes = {
   numCards: PropTypes.number,
 };
 
-let seen = new Set();
+let imgs = []
 
-async function getImage() {
-  const maxPokemon = 898;
-  const randomId = Math.floor(Math.random() * maxPokemon) + 1;
+async function populateImages(numImgs) {
+  for (let i = 1; i <= numImgs; i++) {
+    let [url, name] = await getImages(i*20);
+    imgs.push({url, name, id: `${name}-${i}`});
+  }
+}
 
+populateImages(20);
+
+async function getImages(i) {
   const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${randomId}/`, 
+    `https://pokeapi.co/api/v2/pokemon/${i}/`, 
     { mode: 'cors' }
   );
   const data = await response.json();
+  //  return url, name of sprite
   return [data.sprites.front_default, data.forms[0].name];
 }
 
-function Card({ id }) {
-  const [url, setUrl] = useState(null);
-  const [name, setName] = useState('');
-
-  async function fetchImage() {
-    let [gifUrl, gifName] = await getImage();
-    setUrl(gifUrl);
-    setName(gifName);
-  }
-
-  useEffect(() => {
-    fetchImage();
-  }, []);
+function Card({ url, name, id }) {
 
   const handleClick = (e) => {
     const id = e.target.id;
-    seen.add(id);
-    console.log(seen);
-    fetchImage();
+    console.log(id);
   }
 
   return (
@@ -65,19 +65,15 @@ function Card({ id }) {
   );
 }
 
-function Cards({ numCards }) {
 
-  let cards = [];
-  for (let i = 0; i < numCards; i++) {
-    cards.push({card: <Card id={i}/>, id: i});
-  }
+function Cards({ numCards }) {
 
   return (
     <div className='cards' style={{width: `calc(${numCards / 2} * 10rem + 2.5rem)`}}>
-      {cards.map((c) => {
+      {imgs.map((c) => {
         return (
           <div key={c.id}>
-            {c.card}
+            <Card {...c} />
           </div>
         );
       })}

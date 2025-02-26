@@ -7,7 +7,7 @@ import Cards from './Card.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     {/* <App /> */}
-    <Cards numCards={12} />
+    <Cards numCards={20} />
   </StrictMode>,
 )
 
